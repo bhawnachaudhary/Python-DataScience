@@ -12,6 +12,6 @@ ans = add_3() #the answer will not be displayed but will be stored in answer var
 print(ans) #the variable can be used in code later
 
 
-print(add_3())#the answer wi ll be displayed but not stored in any variable
+print(add_3())#the answer will be displayed but not stored in any variable
 
 output = add_3() + add_3() - add_3 #return type functions can be used 
