@@ -2,7 +2,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from sqlalchemy.orm import session
 from sqlalchemy.orm.session import Session
-from StudentDB import Student,Base,StudentGrades
+from StudentDB import Student,StudentGrades
 import os
 
 Session = sessionmaker(bind=create_engine('sqlite:///student.db'))
@@ -63,14 +63,13 @@ def view_all_students():
     input('press enter to continue ')
 
 
-
 def delete_student():
     global session
     roll_num = input("Student's Roll Number: ")
     if roll_num:
         db = session()
-        student = db.query(Student).filter(Student.roll_num==roll_num)
-        student.delete()
+        student = db.query(Student).filter(Student.roll_num.like(roll_num))
+        db.delete(student[0])
         db.commit()
         db.close()
         print("STUDENT REMOVED FROM THE DB")
@@ -79,6 +78,44 @@ def delete_student():
     input('Press ENTER to continue...')
 
 
+def add_student_grades():
+    global session
+    name = input('enter name of student')
+
+
+def view_student_grades():
+    pass
+
+
+def update_student_grades():
+    global Session
+    id = input("Student's id is: ")
+    if id:
+        db = Session()
+        Student_Grades = db.query(StudentGrades).get(id = int(id)) #single item
+        if Student_Grades:
+            name = input(f'{Student_Grades.name}(change name):')
+            english = input(f'{Student_Grades.english}(change name): ')
+            hindi = input(f'{Student_Grades.hindi}(change name): ')
+            maths = input(f'{Student_Grades.maths}(change name): ')
+            if not name:
+                name = Student_Grades.name
+            if not english:
+                english = Student_Grades.english
+            if not hindi:
+                hindi = Student_Grades.hindi
+            if not maths:
+                maths = Student_Grades.maths
+            # update the database
+            Student_Grades.name = name
+            Student_Grades.english = int(english)
+            Student_Grades.hindi = int(hindi)
+            Student_Grades.maths = int(maths)
+            db.commit()
+            db.close()
+            print('Information Updated !')
+        else:
+            print(f'no student grades found for id {id}')
 
 
 #main loop
