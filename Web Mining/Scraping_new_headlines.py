@@ -9,21 +9,21 @@ webpage = "https://www.ndtv.com/latest#pfrom=home-ndtv_mainnavgation"
 driver.get(webpage)
 
 target = driver.find_element_by_css_selector('div.lisingNews')  # single
-news = target.find_element_by_css_selector('div.news_Itm')   # multi
+news = target.find_elements_by_css_selector('div.news_Itm')   # multi
 
 # loop through all the news
 data = []
 for item in news:
     try:
-        title = item.find_element_by_css_selector('h2.newsHdng').text
+        title = item.find_elements_by_css_selector('h2.newsHdng').text
     except:
         title = ""
     try:
-        posted_by = item.find_element_by_css_selector('span.posted-by').text
+        posted_by = item.find_elements_by_css_selector('span.posted-by').text
     except:
         posted_by = ""
     try:
-        content = item.find_element_by_css_selector('p.newsCont').text
+        content = item.find_elements_by_css_selector('p.newsCont').text
     except:
         content = ""
 
@@ -33,7 +33,7 @@ for item in news:
         'content':content
     })
     #loop ends
-    
+
 if len(data) > 0:
     pd.DataFrame(data).to_csv('todays_headlines.csv')
 else:
